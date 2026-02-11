@@ -1,11 +1,8 @@
-
 import { Product, User, UserRole, LeaveRequest, AttendanceRecord } from './types.ts';
 
-// Supabase Configuration
-// Replace these with your actual Supabase Project URL and Anon Key
-// Fix: Use process.env directly instead of window.process to avoid 'Property process does not exist on type Window'
-export const SUPABASE_URL = process.env.SUPABASE_URL || '';
-export const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
+// Remote Database Configuration
+export const SUPABASE_URL = 'https://bfkqksdndamlxyalfsaf.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJma3Frc2RuZGFtbHh5YWxmc2FmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4MjA1MjAsImV4cCI6MjA4NjM5NjUyMH0.2eJ31fQc3s1MbB-X0dnOK_mQ67WJcvAfI7kbURpRJho';
 
 export const ADMIN_USER: User = {
   id: 'admin',
@@ -24,8 +21,6 @@ export const STAFF_USER: User = {
   avatar: 'https://picsum.photos/seed/staff/200',
   department: 'Produce'
 };
-
-export const GOOGLE_SHEET_WEBHOOK_URL = ''; 
 
 export const MOCK_PRODUCTS: Product[] = [
   { id: '1', name: 'Fresh Apples', sku: 'APL-001', stock: 150, price: 2.99, category: 'Produce', expiryDate: '2024-12-25', status: 'In Stock' },

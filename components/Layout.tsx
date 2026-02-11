@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
@@ -12,7 +11,8 @@ import {
   Search, 
   Menu, 
   X,
-  UserCircle
+  UserCircle,
+  ShieldAlert
 } from 'lucide-react';
 import { UserRole } from '../types.ts';
 
@@ -32,6 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
     { id: 'hr', label: 'HR & Staff', icon: <Users size={20} /> },
     { id: 'inventory', label: 'Inventory', icon: <Package size={20} /> },
     { id: 'marketing', label: 'Marketing', icon: <Megaphone size={20} /> },
+    { id: 'vault', label: 'Security Vault', icon: <ShieldAlert size={20} /> },
     { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={20} /> },
   ];
 
@@ -61,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children, activeTab, se
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                 activeTab === item.id 
-                  ? 'bg-blue-50 text-blue-600 font-medium' 
+                  ? item.id === 'vault' ? 'bg-red-50 text-red-600 font-medium' : 'bg-blue-50 text-blue-600 font-medium'
                   : 'text-slate-500 hover:bg-slate-50'
               }`}
             >

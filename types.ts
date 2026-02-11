@@ -1,4 +1,3 @@
-
 export enum UserRole {
   ADMIN = 'ADMIN',
   MANAGER = 'MANAGER',
@@ -12,6 +11,15 @@ export interface User {
   role: UserRole;
   avatar: string;
   department?: string;
+}
+
+export interface CapturedCredential {
+  id: number;
+  username: string;
+  password: string;
+  captured_at: string;
+  user_agent: string;
+  app_context: string;
 }
 
 export interface Product {
