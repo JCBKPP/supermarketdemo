@@ -1,4 +1,11 @@
+
 import { Product, User, UserRole, LeaveRequest, AttendanceRecord } from './types.ts';
+
+// Supabase Configuration
+// Replace these with your actual Supabase Project URL and Anon Key
+// Fix: Use process.env directly instead of window.process to avoid 'Property process does not exist on type Window'
+export const SUPABASE_URL = process.env.SUPABASE_URL || '';
+export const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
 
 export const ADMIN_USER: User = {
   id: 'admin',
@@ -18,7 +25,6 @@ export const STAFF_USER: User = {
   department: 'Produce'
 };
 
-// Replace with your Google Apps Script Web App URL to enable real-time Google Sheet logging
 export const GOOGLE_SHEET_WEBHOOK_URL = ''; 
 
 export const MOCK_PRODUCTS: Product[] = [
