@@ -1,0 +1,9 @@
+{
+  "name": "Copy of SuperMart Enterprise Dashboard",
+  "description": "A comprehensive supermarket management dashboard for HR, inventory, and marketing with integrated AI features and role-based access.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
