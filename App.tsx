@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Login from './pages/Login.tsx';
 import Layout from './components/Layout.tsx';
@@ -8,6 +7,7 @@ import MarketingModule from './pages/MarketingModule.tsx';
 import StaffHome from './pages/StaffHome.tsx';
 import { UserRole, User } from './types.ts';
 import { ADMIN_USER, STAFF_USER } from './constants.tsx';
+import { Logger } from './services/logger.ts';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -17,13 +17,18 @@ const App: React.FC = () => {
     if (role === 'ADMIN') {
       setUser(ADMIN_USER);
       setActiveTab('dashboard');
+      Logger.logEvent(username, role, 'User logged in to Admin Dashboard');
     } else {
       setUser(STAFF_USER);
       setActiveTab('home');
+      Logger.logEvent(username, role, 'User logged in to Staff Portal');
     }
   };
 
   const handleLogout = () => {
+    if (user) {
+      Logger.logEvent(user.username, user.role, 'User logged out');
+    }
     setUser(null);
   };
 

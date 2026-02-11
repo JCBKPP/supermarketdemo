@@ -1,4 +1,3 @@
-
 import { Product, User, UserRole, LeaveRequest, AttendanceRecord } from './types.ts';
 
 export const ADMIN_USER: User = {
@@ -18,6 +17,9 @@ export const STAFF_USER: User = {
   avatar: 'https://picsum.photos/seed/staff/200',
   department: 'Produce'
 };
+
+// Replace with your Google Apps Script Web App URL to enable real-time Google Sheet logging
+export const GOOGLE_SHEET_WEBHOOK_URL = ''; 
 
 export const MOCK_PRODUCTS: Product[] = [
   { id: '1', name: 'Fresh Apples', sku: 'APL-001', stock: 150, price: 2.99, category: 'Produce', expiryDate: '2024-12-25', status: 'In Stock' },

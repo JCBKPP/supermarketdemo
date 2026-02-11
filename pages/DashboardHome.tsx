@@ -1,15 +1,16 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
-  Package, 
   TrendingUp, 
   ArrowUpRight, 
   ArrowDownRight,
   Clock,
-  AlertTriangle
+  AlertTriangle,
+  History,
+  ShieldCheck
 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Logger, LogEntry } from '../services/logger.ts';
 
 const data = [
   { name: 'Mon', sales: 4000, visits: 2400 },
@@ -22,6 +23,12 @@ const data = [
 ];
 
 const DashboardHome = () => {
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+
+  useEffect(() => {
+    setLogs(Logger.getLogs());
+  }, []);
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -85,29 +92,41 @@ const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-800 mb-6">Live Alerts</h2>
-          <div className="space-y-6">
-            {[
-              { type: 'stock', title: 'Low Stock Alert', desc: 'Whole Milk (3.5%) is below 15 units.', time: '5m ago', color: 'bg-amber-100 text-amber-700' },
-              { type: 'hr', title: 'New Leave Request', desc: 'Sarah Miller requested 3 days off.', time: '12m ago', color: 'bg-blue-100 text-blue-700' },
-              { type: 'marketing', title: 'Campaign Performance', desc: 'New Year Sale reach +24% today.', time: '45m ago', color: 'bg-green-100 text-green-700' },
-              { type: 'stock', title: 'Expiry Warning', desc: 'Chicken Breast expires in 2 days.', time: '1h ago', color: 'bg-red-100 text-red-700' },
-            ].map((alert, i) => (
-              <div key={i} className="flex gap-4">
-                <div className={`w-2 h-2 mt-2 rounded-full shrink-0 ${alert.color.split(' ')[0].replace('bg-', 'bg-')}`}></div>
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold text-slate-800">{alert.title}</h4>
-                    <span className="text-[10px] font-medium text-slate-400 uppercase">{alert.time}</span>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-relaxed">{alert.desc}</p>
-                </div>
-              </div>
-            ))}
+        {/* System Access Log */}
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+          <div className="flex items-center gap-2 mb-6">
+            <History className="text-blue-600" size={20} />
+            <h2 className="text-lg font-bold text-slate-800">System Access Log</h2>
           </div>
-          <button className="w-full mt-8 py-2 text-sm font-semibold text-blue-600 hover:text-blue-700 text-center">View All Notifications</button>
+          
+          <div className="flex-1 space-y-4 overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+            {logs.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-3 opacity-40">
+                <ShieldCheck size={40} />
+                <p className="text-sm font-medium">No recent login events recorded.</p>
+              </div>
+            ) : (
+              logs.map((log, i) => (
+                <div key={i} className="group relative p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-bold text-blue-600 uppercase tracking-tight">{log.username}</span>
+                    <span className="text-[10px] text-slate-400 font-medium">
+                      {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-700 font-medium leading-tight">{log.event}</p>
+                  <p className="text-[10px] text-slate-400 mt-1 truncate">{log.details.split(') ')[1] || log.details}</p>
+                </div>
+              ))
+            )}
+          </div>
+          
+          <button 
+            onClick={() => { Logger.clearLogs(); setLogs([]); }}
+            className="w-full mt-6 py-2 text-xs font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest border-t border-slate-50 pt-4"
+          >
+            Clear Local History
+          </button>
         </div>
       </div>
     </div>
